@@ -95,9 +95,15 @@ function ChatShowcase() {
     }
   }, [shown, typing]);
 
+  const isMobile = useIsMobile();
   return (
     <Section>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 64, alignItems: "stretch" }}>
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 1.1fr",
+        gap: isMobile ? 32 : 64,
+        alignItems: "stretch",
+      }}>
 
         <div style={{ paddingTop: 32 }}>
           <MonoLabel color="#A78BFA">04 — Демо</MonoLabel>
@@ -330,6 +336,7 @@ function Capabilities() {
 
 // ─── HOW IT WORKS ─────────────────────────────────────────
 function HowItWorks() {
+  const isMobile = useIsMobile();
   const flow = [
     { side: "in",   icon: "message",  label: "Канал входа",   desc: "WhatsApp · Telegram · виджет на сайте · Avito" },
     { side: "core", icon: "bot",      label: "AI-агент",      desc: "Понимает контекст, ведёт диалог, принимает решения" },
@@ -353,7 +360,7 @@ function HowItWorks() {
 
       <div style={{
         position: "relative",
-        padding: "48px 32px",
+        padding: isMobile ? "32px 20px" : "48px 32px",
         background: "rgba(11,11,15,0.5)",
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: 24,
@@ -362,8 +369,8 @@ function HowItWorks() {
       }}>
         <div style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1.2fr 1fr",
-          gap: 48, alignItems: "center",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1.2fr 1fr",
+          gap: isMobile ? 24 : 48, alignItems: "center",
         }}>
 
           {/* Inputs */}

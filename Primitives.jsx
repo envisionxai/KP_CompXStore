@@ -1,6 +1,27 @@
 // Shared primitives — buttons, eyebrow, glass card, gradient text, section title
 const { useEffect, useRef, useState } = React;
 
+// ─── Responsive helper ───────────────────────────────────────
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const update = () => setMatches(mq.matches);
+    update();
+    if (mq.addEventListener) mq.addEventListener("change", update);
+    else mq.addListener(update);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", update);
+      else mq.removeListener(update);
+    };
+  }, [query]);
+  return matches;
+}
+function useIsMobile()  { return useMediaQuery("(max-width: 768px)"); }
+function useIsNarrow()  { return useMediaQuery("(max-width: 1024px)"); }
+
 // ─── Eyebrow badge ───────────────────────────────────────────
 function Eyebrow({ children, color = "blue" }) {
   const palette = {
@@ -212,4 +233,5 @@ function StarField() {
 Object.assign(window, {
   Eyebrow, PrimaryButton, SecondaryButton, GlassCard,
   SectionTitle, ItalicLime, GradientText, AmbientBG, StarField,
+  useMediaQuery, useIsMobile, useIsNarrow,
 });

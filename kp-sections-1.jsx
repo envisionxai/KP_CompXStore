@@ -3,10 +3,11 @@ const { useState, useEffect, useRef } = React;
 
 // ─── Reusable section wrapper ─────────────────────────────
 function Section({ children, id, style = {} }) {
+  const isMobile = useIsMobile();
   return (
     <section id={id} style={{
       position: "relative", zIndex: 10,
-      padding: "96px 24px",
+      padding: isMobile ? "56px 16px" : "96px 24px",
       maxWidth: 1200, margin: "0 auto", width: "100%",
       ...style,
     }}>
@@ -27,11 +28,14 @@ function MonoLabel({ children, color = "#9ca3af" }) {
 
 // ─── HERO ─────────────────────────────────────────────────
 function KPHero() {
+  const isMobile = useIsMobile();
   return (
     <section style={{
-      position: "relative", zIndex: 10, paddingTop: 140, paddingBottom: 80,
+      position: "relative", zIndex: 10,
+      paddingTop: isMobile ? 64 : 140,
+      paddingBottom: isMobile ? 48 : 80,
     }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 16px" : "0 24px" }}>
 
         {/* Top meta bar */}
         <div style={{
@@ -108,9 +112,14 @@ function KPHero() {
 
 // ─── WHAT WE OFFER ────────────────────────────────────────
 function WhatWeOffer() {
+  const isMobile = useIsMobile();
   return (
     <Section>
-      <div style={{ display: "grid", gridTemplateColumns: "minmax(200px, 280px) 1fr", gap: 80 }}>
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "minmax(200px, 280px) 1fr",
+        gap: isMobile ? 24 : 80,
+      }}>
         <div>
           <MonoLabel color="#60A5FA">01 — Суть</MonoLabel>
           <h2 style={{
@@ -164,6 +173,7 @@ function WhatWeOffer() {
 
 // ─── PROBLEM ──────────────────────────────────────────────
 function ProblemBlock() {
+  const isMobile = useIsMobile();
   const pains = [
     { i: "filter",     t: "Менеджер тонет в нецелевых заявках", d: "До 60% входящих — «просто узнать», вакансии, спам. Время продаж сгорает на сортировке." },
     { i: "clock",      t: "Клиент ждёт ответа часами",          d: "Заявка вечером, ответ утром. К моменту контакта клиент уже ушёл к конкуренту." },
@@ -185,7 +195,7 @@ function ProblemBlock() {
       </div>
       <div style={{
         display: "grid", gap: 16,
-        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gridTemplateColumns: isMobile ? "1fr" : "repeat(2, minmax(0, 1fr))",
       }}>
         {pains.map((p, i) => (
           <div key={i} style={{

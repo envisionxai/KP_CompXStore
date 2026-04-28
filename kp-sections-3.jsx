@@ -205,6 +205,7 @@ function Timeline() {
 
 // ─── PRICING ──────────────────────────────────────────────
 function Pricing() {
+  const isMobile = useIsMobile();
   return (
     <Section>
       <div style={{ marginBottom: 56 }}>
@@ -221,12 +222,12 @@ function Pricing() {
 
       <div style={{
         display: "grid", gap: 20,
-        gridTemplateColumns: "minmax(380px, 1.4fr) minmax(240px, 1fr)",
+        gridTemplateColumns: isMobile ? "1fr" : "minmax(380px, 1.4fr) minmax(240px, 1fr)",
         alignItems: "stretch",
       }}>
         {/* Implementation (single card) */}
         <div style={{
-          padding: "40px 36px", borderRadius: 24,
+          padding: isMobile ? "32px 24px" : "40px 36px", borderRadius: 24,
           background: "linear-gradient(180deg, rgba(96,165,250,0.10), rgba(167,139,250,0.04))",
           border: "1px solid rgba(96,165,250,0.25)",
           position: "relative", overflow: "hidden",
@@ -381,6 +382,7 @@ function YouTubeWithTint({ videoId, start = 0, title }) {
 
 // ─── CASE SHOWCASE ────────────────────────────────────────
 function CaseShowcase() {
+  const isMobile = useIsMobile();
   const metrics = [
     { v: "+30%",   l: "квалиф. лидов" },
     { v: "3 сек.", l: "первый ответ" },
@@ -407,14 +409,14 @@ function CaseShowcase() {
 
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
+        gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(380px, 1fr))",
         background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(255,255,255,0.10)",
         borderRadius: 24, overflow: "hidden",
         color: "inherit",
       }}>
         {/* Body */}
-        <div style={{ padding: "40px 44px", display: "flex", flexDirection: "column", gap: 24 }}>
+        <div style={{ padding: isMobile ? "28px 24px" : "40px 44px", display: "flex", flexDirection: "column", gap: 24 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <span style={{
               padding: "4px 8px", borderRadius: 6,
@@ -464,10 +466,11 @@ function CaseShowcase() {
         <div style={{
           position: "relative",
           background: "radial-gradient(circle at 70% 30%, rgba(96,165,250,0.18), transparent 60%), rgba(255,255,255,0.04)",
-          borderLeft: "1px solid rgba(255,255,255,0.08)",
+          borderLeft: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)",
+          borderTop:  isMobile ? "1px solid rgba(255,255,255,0.08)" : "none",
           overflow: "hidden",
           display: "flex", alignItems: "center", justifyContent: "center",
-          minHeight: 380,
+          minHeight: isMobile ? 260 : 380,
         }}>
           <div style={{
             position: "absolute", top: 28, right: 28,
@@ -516,6 +519,7 @@ function CaseShowcase() {
 
 // ─── SUPPORT DETAILS ──────────────────────────────────────
 function SupportDetails() {
+  const isMobile = useIsMobile();
   const features = [
     { label: "Токены LLM-провайдера",            ext: "включены",     base: "включены" },
     { label: "Реакция на сбои и проблемы",       ext: "до 3 часов",   base: "до 48 часов" },
@@ -541,10 +545,11 @@ function SupportDetails() {
       </div>
 
       <div style={{
-        borderRadius: 20, overflow: "hidden",
+        borderRadius: 20, overflow: isMobile ? "auto" : "hidden",
         border: "1px solid rgba(255,255,255,0.08)",
         background: "#0a0a0e",
       }}>
+        <div style={{ minWidth: isMobile ? 640 : "auto" }}>
         {/* Header row */}
         <div style={{
           display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr",
@@ -599,6 +604,7 @@ function SupportDetails() {
             </div>
           );
         })}
+        </div>
       </div>
 
       <p style={{
@@ -614,10 +620,11 @@ function SupportDetails() {
 
 // ─── FINAL CTA ────────────────────────────────────────────
 function FinalCTA() {
+  const isMobile = useIsMobile();
   return (
-    <Section style={{ paddingTop: 48, paddingBottom: 96 }}>
+    <Section style={{ paddingTop: 48, paddingBottom: isMobile ? 64 : 96 }}>
       <div style={{
-        padding: "72px 56px",
+        padding: isMobile ? "44px 24px" : "72px 56px",
         borderRadius: 28,
         background: "linear-gradient(135deg, rgba(20,30,40,0.6), rgba(15,20,30,0.6))",
         border: "1px solid rgba(255,255,255,0.08)",
