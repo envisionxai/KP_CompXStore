@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" shape-rendering="geometricPrecision">
+  
+  <rect width="400" height="400" rx="72" ry="72" fill="white"></rect>
+
+  
+
+  
+  <circle cx="138" cy="76" r="7" fill="black"></circle>  
+  <circle cx="200" cy="76" r="9" fill="black"></circle>  
+  <circle cx="262" cy="76" r="7" fill="black"></circle>  
+
+  
+  <circle cx="76" cy="138" r="7" fill="black"></circle>  
+  <circle cx="138" cy="138" r="12" fill="black"></circle>  
+  <circle cx="200" cy="138" r="17" fill="black"></circle>  
+  <circle cx="262" cy="138" r="12" fill="black"></circle>  
+  <circle cx="324" cy="138" r="7" fill="black"></circle>  
+
+  
+  <circle cx="76" cy="200" r="9" fill="black"></circle>  
+  <circle cx="138" cy="200" r="17" fill="black"></circle>  
+  <circle cx="200" cy="200" r="22" fill="black"></circle>  
+  <circle cx="262" cy="200" r="17" fill="black"></circle>  
+  <circle cx="324" cy="200" r="9" fill="black"></circle>  
+
+  
+  <circle cx="76" cy="262" r="7" fill="black"></circle>  
+  <circle cx="138" cy="262" r="12" fill="black"></circle>  
+  <circle cx="200" cy="262" r="17" fill="black"></circle>  
+  <circle cx="262" cy="262" r="12" fill="black"></circle>  
+  <circle cx="324" cy="262" r="7" fill="black"></circle>  
+
+  
+  <circle cx="138" cy="324" r="7" fill="black"></circle>  
+  <circle cx="200" cy="324" r="9" fill="black"></circle>  
+  <circle cx="262" cy="324" r="7" fill="black"></circle>  
+</svg>
