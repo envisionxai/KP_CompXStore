@@ -114,15 +114,15 @@ function SectionTitle({ children, style = {} }) {
   );
 }
 
-function ItalicLime({ children }) {
+function ItalicLime({ children, thickness = 4, offset = 4 }) {
   return (
     <b style={{
       fontFamily: "Fraunces, serif",
       fontStyle: "italic", fontWeight: 500,
       textDecoration: "underline",
       textDecorationColor: "#c8e636",
-      textDecorationThickness: 4,
-      textUnderlineOffset: 4,
+      textDecorationThickness: thickness,
+      textUnderlineOffset: offset,
     }}>{children}</b>
   );
 }

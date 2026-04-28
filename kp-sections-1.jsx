@@ -81,7 +81,7 @@ function KPHero() {
           gap: 16, marginBottom: 32,
         }}>
           {[
-            { v: "−70%", l: "нагрузки на менеджеров", c: "#60A5FA" },
+            { v: "−60%", l: "нагрузки на менеджеров", c: "#60A5FA" },
             { v: "24/7", l: "обработка входящих", c: "#A78BFA" },
             { v: "30 сек", l: "до первого ответа", c: "#22D3EE" },
             { v: "×2", l: "конверсия в квал. лид", c: "#c8e636" },
@@ -125,30 +125,31 @@ function WhatWeOffer() {
             fontSize: 24, color: "#fff", lineHeight: 1.45, fontWeight: 300,
             letterSpacing: "-0.01em", marginBottom: 32, textWrap: "balance",
           }}>
-            Разработку и внедрение <ItalicLime>AI-агента-квалификатора</ItalicLime>,
+            Разработку и внедрение <ItalicLime thickness={2} offset={3}>AI-агента-квалификатора</ItalicLime>,
             который ведёт первичный диалог с клиентом, отвечает на типовые вопросы по
             базе знаний, проверяет наличие на 1С-складе и передаёт менеджеру
             готовый к закрытию лид.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 0, marginTop: 40 }}>
             {[
-              { icon: "filter",   t: "Квалифицирует",  d: "потребность, бюджет, сроки" },
-              { icon: "brain",    t: "Консультирует",  d: "по базе знаний и каталогу" },
-              { icon: "package",  t: "Проверяет",      d: "наличие через 1С-склад" },
-              { icon: "send",     t: "Передаёт",       d: "тёплый лид в CRM менеджеру" },
+              { icon: "filter",   color: "#60A5FA", glow: "96,165,250",  t: "Квалифицирует",  d: "потребность, бюджет, сроки" },
+              { icon: "brain",    color: "#A78BFA", glow: "167,139,250", t: "Консультирует",  d: "по базе знаний и каталогу" },
+              { icon: "package",  color: "#22D3EE", glow: "34,211,238",  t: "Проверяет",      d: "наличие через 1С-склад" },
+              { icon: "send",     color: "#c8e636", glow: "200,230,54",  t: "Передаёт",       d: "тёплый лид в CRM менеджеру" },
             ].map((x, i) => (
               <div key={i} style={{
                 padding: "24px 24px 24px 0",
                 borderTop: "1px solid rgba(255,255,255,0.08)",
               }}>
                 <div style={{
-                  width: 36, height: 36, borderRadius: 10,
-                  background: "rgba(96,165,250,0.12)",
-                  border: "1px solid rgba(96,165,250,0.25)",
+                  width: 44, height: 44, borderRadius: 12,
+                  background: `rgba(${x.glow}, 0.12)`,
+                  border: `1px solid rgba(${x.glow}, 0.30)`,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#60A5FA", marginBottom: 16,
+                  color: x.color, marginBottom: 16,
+                  boxShadow: `0 0 24px rgba(${x.glow}, 0.15)`,
                 }}>
-                  <Ico name={x.icon} size={18} />
+                  <Ico name={x.icon} size={20} />
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 500, color: "#fff", marginBottom: 6 }}>{x.t}</div>
                 <div style={{ fontSize: 13, color: "#9ca3af" }}>{x.d}</div>

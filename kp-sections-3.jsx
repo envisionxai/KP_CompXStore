@@ -1,5 +1,5 @@
 // kp-sections-3.jsx — Timeline, Pricing, Support, Final CTA, Footer
-const { useEffect: useEffect3, useRef: useRef3 } = React;
+const { useEffect: useEffect3, useRef: useRef3, useState: useState3 } = React;
 
 // ─── FILINGS CANVAS ───────────────────────────────────────
 // Magnetic filings: сетка штрихов, реагирующая на курсор.
@@ -219,9 +219,12 @@ function Pricing() {
         </h2>
       </div>
 
-      <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
-
-        {/* Implementation */}
+      <div style={{
+        display: "grid", gap: 20,
+        gridTemplateColumns: "minmax(380px, 1.4fr) minmax(240px, 1fr)",
+        alignItems: "stretch",
+      }}>
+        {/* Implementation (single card) */}
         <div style={{
           padding: "40px 36px", borderRadius: 24,
           background: "linear-gradient(180deg, rgba(96,165,250,0.10), rgba(167,139,250,0.04))",
@@ -243,7 +246,7 @@ function Pricing() {
               fontFamily: "Fraunces, serif", fontStyle: "italic",
               fontSize: 64, fontWeight: 500, color: "#fff", lineHeight: 1,
               letterSpacing: "-0.03em",
-            }}>250 000</span>
+            }}>160 000</span>
             <span style={{
               fontFamily: "Geist Mono, monospace", fontSize: 18, color: "#9ca3af",
               marginLeft: 10,
@@ -251,6 +254,7 @@ function Pricing() {
           </div>
           <p style={{ fontSize: 14, color: "#9ca3af", marginBottom: 28, marginTop: 8 }}>
             Полная разработка и запуск агента под ключ за 2 недели.
+            Ежемесячное сопровождение — <span style={{ color: "#fff" }}>см. раздел 09</span>.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {[
@@ -271,141 +275,239 @@ function Pricing() {
           </div>
         </div>
 
-        {/* Расширенное сопровождение (рекомендуем) */}
-        <div style={{
-          padding: "40px 36px", borderRadius: 24,
-          background: "linear-gradient(180deg, rgba(200,230,54,0.10), rgba(34,211,238,0.04))",
-          border: "1px solid rgba(200,230,54,0.30)",
-          position: "relative", overflow: "hidden",
-        }}>
-          <div style={{
-            position: "absolute", top: 20, right: 20,
-            padding: "4px 10px", borderRadius: 999,
-            background: "rgba(200,230,54,0.15)",
-            border: "1px solid rgba(200,230,54,0.35)",
-            fontFamily: "Geist Mono, monospace",
-            fontSize: 10, color: "#c8e636",
-            textTransform: "uppercase", letterSpacing: "0.1em",
-          }}>Рекомендуем</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: 10,
-              background: "rgba(200,230,54,0.12)",
-              border: "1px solid rgba(200,230,54,0.30)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#c8e636",
-            }}><Ico name="settings" size={18} /></div>
-            <MonoLabel color="#c8e636">Расширенное · ежемесячно</MonoLabel>
-          </div>
-          <div style={{ marginBottom: 6, whiteSpace: "nowrap" }}>
-            <span style={{
-              fontFamily: "Fraunces, serif", fontStyle: "italic",
-              fontSize: 64, fontWeight: 500, color: "#fff", lineHeight: 1,
-              letterSpacing: "-0.03em",
-            }}>20 000</span>
-            <span style={{
-              fontFamily: "Geist Mono, monospace", fontSize: 18, color: "#9ca3af",
-              marginLeft: 10,
-            }}>₽ / мес</span>
-          </div>
-          <p style={{ fontSize: 14, color: "#9ca3af", marginBottom: 28, marginTop: 8 }}>
-            Агент остаётся актуальным, обучается и улучшается каждый месяц.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              "Токены LLM-провайдера (включены)",
-              "Реакция на сбои — до 3 часов",
-              "Доработки и новые сценарии",
-              "Дообучение на реальных диалогах",
-              "Актуализация базы знаний",
-              "Мониторинг 24/7",
-              "Ежемесячный отчёт по метрикам",
-            ].map((it, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <Ico name="check" size={14} color="#c8e636" />
-                <span style={{ fontSize: 13.5, color: "#fff", lineHeight: 1.5 }}>{it}</span>
-              </div>
-            ))}
-          </div>
+        {/* Right capsules */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {[
+            { label: "Старт",        value: "160 000 ₽",   desc: "внедрение под ключ",   color: "#60A5FA", glow: "96,165,250"  },
+            { label: "Окупаемость",  value: "3–5 месяцев", desc: "при текущем потоке",   color: "#c8e636", glow: "200,230,54"  },
+            { label: "Гарантия",     value: "SLA 99.5%",   desc: "доступности",           color: "#A78BFA", glow: "167,139,250" },
+          ].map((c, i) => (
+            <div key={i} style={{
+              flex: 1,
+              padding: "22px 26px", borderRadius: 18,
+              background: `rgba(${c.glow}, 0.06)`,
+              border: `1px solid rgba(${c.glow}, 0.22)`,
+              display: "flex", flexDirection: "column", justifyContent: "center", gap: 6,
+            }}>
+              <MonoLabel color={c.color}>{c.label}</MonoLabel>
+              <div style={{
+                fontFamily: "Fraunces, serif", fontStyle: "italic", fontWeight: 500,
+                fontSize: "clamp(22px, 2vw, 28px)", color: "#fff",
+                letterSpacing: "-0.02em", lineHeight: 1,
+              }}>{c.value}</div>
+              <div style={{ fontSize: 13, color: "#9ca3af" }}>{c.desc}</div>
+            </div>
+          ))}
         </div>
+      </div>
+    </Section>
+  );
+}
 
-        {/* Базовое сопровождение */}
-        <div style={{
-          padding: "40px 36px", borderRadius: 24,
-          background: "linear-gradient(180deg, rgba(167,139,250,0.08), rgba(255,255,255,0.02))",
-          border: "1px solid rgba(167,139,250,0.22)",
-          position: "relative", overflow: "hidden",
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: 10,
-              background: "rgba(167,139,250,0.12)",
-              border: "1px solid rgba(167,139,250,0.30)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#A78BFA",
-            }}><Ico name="zap" size={18} /></div>
-            <MonoLabel color="#A78BFA">Базовое · только токены</MonoLabel>
-          </div>
-          <div style={{ marginBottom: 6, whiteSpace: "nowrap" }}>
-            <span style={{
-              fontFamily: "Fraunces, serif", fontStyle: "italic",
-              fontSize: 64, fontWeight: 500, color: "#fff", lineHeight: 1,
-              letterSpacing: "-0.03em",
-            }}>10 000</span>
-            <span style={{
-              fontFamily: "Geist Mono, monospace", fontSize: 18, color: "#9ca3af",
-              marginLeft: 10,
-            }}>₽ / мес</span>
-          </div>
-          <p style={{ fontSize: 14, color: "#9ca3af", marginBottom: 28, marginTop: 8 }}>
-            Только токены LLM. Цена указана из расчёта <span style={{ color: "#fff" }}>4 000 контактов / мес</span>.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              "Токены LLM-провайдера (включены)",
-              "Реакция на сбои — до 48 часов",
-              "Мониторинг работоспособности",
-              "Без доработок и дообучения",
-              "Без обновления базы знаний",
-            ].map((it, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <Ico name="check" size={14} color="#A78BFA" />
-                <span style={{ fontSize: 13.5, color: "#fff", lineHeight: 1.5 }}>{it}</span>
-              </div>
-            ))}
-          </div>
+// ─── YOUTUBE PLAYER ───────────────────────────────────────
+let ytApiPromise = null;
+function loadYouTubeAPI() {
+  if (ytApiPromise) return ytApiPromise;
+  ytApiPromise = new Promise((resolve) => {
+    if (window.YT && window.YT.Player) { resolve(); return; }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { if (prev) prev(); resolve(); };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      const s = document.createElement("script");
+      s.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(s);
+    }
+  });
+  return ytApiPromise;
+}
+
+function YouTubeWithTint({ videoId, start = 0, title }) {
+  const containerRef = useRef3(null);
+  const [isPlaying, setIsPlaying] = useState3(false);
+
+  useEffect3(() => {
+    let cancelled = false;
+    let player = null;
+    loadYouTubeAPI().then(() => {
+      if (cancelled || !containerRef.current) return;
+      if (!window.YT || !window.YT.Player) return;
+      const target = document.createElement("div");
+      containerRef.current.appendChild(target);
+      player = new window.YT.Player(target, {
+        videoId,
+        width: "100%",
+        height: "100%",
+        playerVars: { start, rel: 0, modestbranding: 1 },
+        events: {
+          onStateChange: (e) => {
+            const PLAYING = (window.YT && window.YT.PlayerState && window.YT.PlayerState.PLAYING) || 1;
+            setIsPlaying(e.data === PLAYING);
+          },
+        },
+      });
+    });
+    return () => {
+      cancelled = true;
+      try { if (player && player.destroy) player.destroy(); } catch (e) { /* no-op */ }
+    };
+  }, [videoId, start]);
+
+  return (
+    <div
+      title={title}
+      style={{
+        position: "absolute", inset: 0,
+        background: "#000",
+      }}
+    >
+      <div
+        ref={containerRef}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(180deg, rgba(8,18,44,0.45), rgba(4,10,28,0.6))",
+          pointerEvents: "none",
+          opacity: isPlaying ? 0 : 1,
+          transition: "opacity 0.4s ease",
+          zIndex: 1,
+        }}
+      />
+    </div>
+  );
+}
+
+// ─── CASE SHOWCASE ────────────────────────────────────────
+function CaseShowcase() {
+  const metrics = [
+    { v: "+30%",   l: "квалиф. лидов" },
+    { v: "3 сек.", l: "первый ответ" },
+    { v: "−60%",  l: "нагрузки на команду" },
+  ];
+  return (
+    <Section>
+      <div style={{
+        marginBottom: 48,
+        display: "flex", alignItems: "flex-end", justifyContent: "space-between",
+        gap: 40, flexWrap: "wrap",
+      }}>
+        <div>
+          <MonoLabel color="#22D3EE">10 — Кейс</MonoLabel>
+          <h2 style={{
+            marginTop: 16, fontSize: "clamp(32px, 4.4vw, 52px)",
+            fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.1,
+            maxWidth: 700, textWrap: "balance", margin: "16px 0 0 0",
+          }}>
+            Что получают клиенты <ItalicLime>после внедрения</ItalicLime>.
+          </h2>
         </div>
       </div>
 
-      {/* Total bar */}
       <div style={{
-        marginTop: 24, padding: "24px 32px",
-        borderRadius: 16,
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
         background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        flexWrap: "wrap", gap: 16,
+        border: "1px solid rgba(255,255,255,0.10)",
+        borderRadius: 24, overflow: "hidden",
+        color: "inherit",
       }}>
-        <div>
-          <MonoLabel>Старт</MonoLabel>
-          <div style={{ fontSize: 15, color: "#fff", marginTop: 4 }}>
-            <span style={{ fontFamily: "Fraunces, serif", fontStyle: "italic", color: "#60A5FA" }}>250 000 ₽</span>
-            {" "}+ от 10 000 ₽/мес со 2-го месяца
+        {/* Body */}
+        <div style={{ padding: "40px 44px", display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <span style={{
+              padding: "4px 8px", borderRadius: 6,
+              background: "rgba(34,211,238,0.12)",
+              border: "1px solid rgba(34,211,238,0.30)",
+              fontFamily: "Geist Mono, monospace", fontSize: 11,
+              color: "#22D3EE", textTransform: "uppercase", letterSpacing: "0.08em",
+            }}>E-commerce · B2C</span>
+            <span style={{
+              fontFamily: "Geist Mono, monospace", fontSize: 11,
+              color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.08em",
+            }}>30 дней</span>
+          </div>
+          <h3 style={{
+            fontSize: "clamp(24px, 2.5vw, 34px)",
+            fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.02em",
+            margin: 0, color: "#fff",
+          }}>
+            Как AI-агент автоматизировал обработку заявок и ускорил ответы клиентам.
+          </h3>
+          <p style={{ fontSize: 15, color: "#9ca3af", lineHeight: 1.55, margin: 0, maxWidth: 480 }}>
+            Заменили ручную квалификацию лидов на агента, работающего в чате и WhatsApp.
+            Первый ответ — за 3 секунды, 24/7.
+          </p>
+          <div style={{
+            marginTop: "auto",
+            display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
+            paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)",
+          }}>
+            {metrics.map((m, i) => (
+              <div key={i}>
+                <div style={{
+                  fontFamily: "Fraunces, serif", fontStyle: "italic", fontWeight: 400,
+                  fontSize: "clamp(22px, 2vw, 30px)", color: "#c8e636",
+                  letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 6,
+                }}>{m.v}</div>
+                <div style={{
+                  fontFamily: "Geist Mono, monospace", fontSize: 10,
+                  color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.1em",
+                }}>{m.l}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <div>
-          <MonoLabel>Окупаемость</MonoLabel>
-          <div style={{ fontSize: 15, color: "#fff", marginTop: 4 }}>
-            <span style={{ fontFamily: "Fraunces, serif", fontStyle: "italic", color: "#c8e636" }}>3–5 месяцев</span>
-            {" "}при текущем потоке заявок
+
+        {/* Visual */}
+        <div style={{
+          position: "relative",
+          background: "radial-gradient(circle at 70% 30%, rgba(96,165,250,0.18), transparent 60%), rgba(255,255,255,0.04)",
+          borderLeft: "1px solid rgba(255,255,255,0.08)",
+          overflow: "hidden",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          minHeight: 380,
+        }}>
+          <div style={{
+            position: "absolute", top: 28, right: 28,
+            display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "6px 12px 6px 8px",
+            background: "#0a0a0e",
+            border: "1px solid rgba(255,255,255,0.10)",
+            borderRadius: 999, fontSize: 12, fontWeight: 500, color: "#fff",
+            zIndex: 2,
+          }}>
+            <img
+              src="assets/blueswan-logo.jpg"
+              alt=""
+              style={{
+                width: 22, height: 22, borderRadius: "50%",
+                objectFit: "cover",
+                border: "1px solid rgba(96,165,250,0.30)",
+              }}
+            />
+            BlueSwan · Игровые ПК
           </div>
-        </div>
-        <div>
-          <MonoLabel>Гарантия</MonoLabel>
-          <div style={{ fontSize: 15, color: "#fff", marginTop: 4 }}>
-            <span style={{ fontFamily: "Fraunces, serif", fontStyle: "italic", color: "#A78BFA" }}>SLA 99.5%</span>
-            {" "}доступности
-          </div>
+          <a
+            href="https://www.avito.ru/brands/blueswanpc"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="BlueSwan на Авито"
+            style={{
+              position: "absolute", top: 28, left: 28,
+              width: 40, height: 40, borderRadius: "50%",
+              background: "#fff", color: "#0a0a0e",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 2, textDecoration: "none",
+              transition: "transform 0.2s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "translate(2px, -2px)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "translate(0, 0)"; }}
+          >
+            <Ico name="arrow-up-right" size={16} />
+          </a>
+          <YouTubeWithTint videoId="sLYLylVqdJ0" start={1} title="Видео-отзыв BlueSwan" />
         </div>
       </div>
     </Section>
@@ -446,30 +548,57 @@ function SupportDetails() {
         {/* Header row */}
         <div style={{
           display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr",
-          padding: "20px 28px",
-          background: "rgba(255,255,255,0.03)",
           borderBottom: "1px solid rgba(255,255,255,0.08)",
           fontFamily: "Geist Mono, monospace",
           fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em",
-          alignItems: "center",
         }}>
-          <div style={{ color: "#6b7280" }}>Условие</div>
-          <div style={{ color: "#c8e636" }}>Расширенное · 20 000 ₽/мес</div>
-          <div style={{ color: "#A78BFA" }}>Базовое · 10 000 ₽/мес</div>
+          <div style={{
+            padding: "20px 28px", color: "#6b7280",
+            background: "rgba(255,255,255,0.03)",
+            display: "flex", alignItems: "center",
+          }}>Условие</div>
+          <div style={{
+            padding: "20px 28px", color: "#c8e636",
+            background: "rgba(200,230,54,0.10)",
+            display: "flex", alignItems: "center",
+          }}>Расширенное · 20 000 ₽/мес</div>
+          <div style={{
+            padding: "20px 28px", color: "#A78BFA",
+            background: "rgba(167,139,250,0.10)",
+            display: "flex", alignItems: "center",
+          }}>Базовое · 10 000 ₽/мес</div>
         </div>
         {/* Feature rows */}
-        {features.map((f, i) => (
-          <div key={i} style={{
-            display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr",
-            padding: "16px 28px",
-            borderBottom: i < features.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-            fontSize: 14, alignItems: "center",
-          }}>
-            <div style={{ color: "#fff" }}>{f.label}</div>
-            <div style={{ color: f.ext === "—" ? "#6b7280" : "#fff" }}>{f.ext}</div>
-            <div style={{ color: f.base === "—" ? "#6b7280" : "#fff" }}>{f.base}</div>
-          </div>
-        ))}
+        {features.map((f, i) => {
+          const isLast = i === features.length - 1;
+          const rowBorder = !isLast ? "1px solid rgba(255,255,255,0.06)" : "none";
+          return (
+            <div key={i} style={{
+              display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr",
+              fontSize: 14,
+            }}>
+              <div style={{
+                padding: "16px 28px", color: "#fff",
+                borderBottom: rowBorder,
+                display: "flex", alignItems: "center",
+              }}>{f.label}</div>
+              <div style={{
+                padding: "16px 28px",
+                color: f.ext === "—" ? "#6b7280" : "#fff",
+                background: "rgba(200,230,54,0.06)",
+                borderBottom: rowBorder,
+                display: "flex", alignItems: "center",
+              }}>{f.ext}</div>
+              <div style={{
+                padding: "16px 28px",
+                color: f.base === "—" ? "#6b7280" : "#fff",
+                background: "rgba(167,139,250,0.06)",
+                borderBottom: rowBorder,
+                display: "flex", alignItems: "center",
+              }}>{f.base}</div>
+            </div>
+          );
+        })}
       </div>
 
       <p style={{
@@ -521,15 +650,15 @@ function FinalCTA() {
         display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap",
         fontSize: 13, color: "#9ca3af",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Ico name="phone" size={14} color="#c8e636" /> +7 (495) 000-00-00
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Ico name="mail" size={14} color="#c8e636" /> hello@envisionxai.ru
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <a href="tel:+79827180576" style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}>
+          <Ico name="phone" size={14} color="#c8e636" /> +7 (982) 718-05-76
+        </a>
+        <a href="mailto:envisionxai.co@gmail.com" style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}>
+          <Ico name="mail" size={14} color="#c8e636" /> envisionxai.co@gmail.com
+        </a>
+        <a href="https://t.me/envisionxai" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}>
           <Ico name="message" size={14} color="#c8e636" /> Telegram · @envisionxai
-        </div>
+        </a>
       </div>
     </Section>
   );
